@@ -1,10 +1,10 @@
 classdef PerformanceAnalyzer < handle
     methods (Static)
         function metrics = analyze(T, L)
-            % T: buclă închisă, L: buclă deschisă
+           
             metrics = struct();
             
-            % Răspuns indicial
+           
             try
                 info = stepinfo(T);
                 metrics.RiseTime     = info.RiseTime;
@@ -18,7 +18,7 @@ classdef PerformanceAnalyzer < handle
                 metrics.PeakTime     = NaN;
             end
             
-            % Eroare staționară la treaptă unitară
+          
             Kv = dcgain(L);
             if isinf(Kv) || Kv == 0 || isnan(Kv)
                 metrics.SteadyStateError = NaN;
@@ -26,7 +26,7 @@ classdef PerformanceAnalyzer < handle
                 metrics.SteadyStateError = 1 / (1 + Kv);
             end
             
-            % Marje de stabilitate
+            
             try
                 [GM, PM, Wcg, Wcp] = margin(L);
                 if isinf(GM)
@@ -44,7 +44,7 @@ classdef PerformanceAnalyzer < handle
                 metrics.PhaseCrossover  = NaN;
             end
             
-            % Stabilitate
+          
             poles_T = pole(T);
             metrics.IsStable = all(real(poles_T) < 0);
         end

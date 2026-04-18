@@ -2,12 +2,12 @@ classdef ColorProvider
     methods (Static)
         function col = getBranchColor(index)
             colors = {
-                '#378ADD',   % albastru
-                '#1D9E75',   % verde
-                '#D85A30',   % portocaliu
-                '#D4537E',   % roz
-                '#7F77DD',   % violet
-                '#639922'    % verde închis
+                '#378ADD',   
+                '#1D9E75',  
+                '#D85A30',   
+                '#D4537E',   
+                '#7F77DD',  
+                '#639922'    
             };
             col = colors{mod(index-1, length(colors)) + 1};
         end

@@ -9,7 +9,7 @@ classdef ControlSystem < handle
     methods
         function obj = ControlSystem(name, varargin)
             obj.Name = name;
-            if nargin == 3      % num, den
+            if nargin == 3      
                 num = varargin{1};
                 den = varargin{2};
                 obj.G_tf = tf(num, den);

@@ -1,7 +1,7 @@
 classdef ParametricUncertainty < handle
     properties
         DenominatorNominal
-        DenominatorIntervals  % struct cu 'min' și 'max'
+        DenominatorIntervals  
     end
     
     methods

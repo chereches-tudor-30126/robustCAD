@@ -53,7 +53,7 @@ classdef RobustCADApp < handle
 
     methods (Access = private)
 
-        %% ================= UI CREATION =================
+      
         function createComponents(app)
             app.UIFigure = uifigure('Name', 'RobustCAD Pro', ...
                 'Position', [100 100 1400 950], 'Visible', 'off');
@@ -62,14 +62,14 @@ classdef RobustCADApp < handle
             app.Grid.ColumnWidth = {300, '1x'};
             app.Grid.Padding = [5 5 5 5];
 
-            % ===== SIDEBAR =====
+           
             app.Sidebar = uipanel(app.Grid, 'Title', 'Control Panel', 'FontWeight', 'bold');
 
             sideLayout = uigridlayout(app.Sidebar, [5 1], ...
                 'RowHeight', {90, 'fit', 70, '1x', 70}, ...
                 'Scrollable', 'off');
 
-            %% System panel
+            
             sysPanel = uipanel(sideLayout, 'Title', 'System', 'FontWeight', 'bold');
             sysLayout = uigridlayout(sysPanel, [2 1], 'RowHeight', {25, 25});
             uilabel(sysLayout, 'Text', 'Select system:');
@@ -77,7 +77,7 @@ classdef RobustCADApp < handle
                 'Items', {'System 1', 'System 2', 'Custom'}, ...
                 'ValueChangedFcn', @(s,e) app.systemChanged());
 
-            %% Custom system panel
+            
             app.CustomSystemPanel = uipanel(sideLayout, ...
                 'Title', 'Custom System', 'Visible', 'off');
             customLayout = uigridlayout(app.CustomSystemPanel, [3 2], ...
@@ -91,19 +91,19 @@ classdef RobustCADApp < handle
             uibutton(customLayout, 'Text', 'Import WS', ...
                 'ButtonPushedFcn', @(s,e) app.importFromWorkspace());
 
-            %% Controller panel
+           
             ctrlPanel = uipanel(sideLayout, 'Title', 'Controller', 'FontWeight', 'bold');
             ctrlLayout = uigridlayout(ctrlPanel, [1 1]);
             app.ControllerDropDown = uidropdown(ctrlLayout, ...
                 'Items', {'None', 'PID', 'Lead-Lag'}, ...
                 'ValueChangedFcn', @(s,e) app.controllerChanged());
 
-            %% Parameters panel (MARE, scrollabil)
+            
             app.ControllerParamsPanel = uipanel(sideLayout, ...
                 'Title', 'Parameters', ...
                 'Scrollable', 'on');
 
-            %% Buttons
+           
             btnPanel = uipanel(sideLayout);
             btnLayout = uigridlayout(btnPanel, [1 3], 'Padding', [5 5 5 5]);
             uibutton(btnLayout, 'Text', 'Export', ...
@@ -113,10 +113,10 @@ classdef RobustCADApp < handle
             uibutton(btnLayout, 'Text', 'Load', ...
                 'ButtonPushedFcn', @(s,e) app.loadSession());
 
-            % ===== TAB GROUP (partea dreaptă) =====
+            
             app.TabGroup = uitabgroup(app.Grid);
 
-            % --- Root Locus Tab ---
+            
             app.RootTab = uitab(app.TabGroup, 'Title', 'Root Locus');
             rootLayout = uigridlayout(app.RootTab, [2 1], ...
                 'RowHeight', {'1x', 60});
@@ -129,7 +129,7 @@ classdef RobustCADApp < handle
             app.KLabel = uilabel(bottom, 'Text', 'k = 0', ...
                 'HorizontalAlignment', 'center');
 
-            % --- Frequency Tab ---
+            
             app.FreqTab = uitab(app.TabGroup, 'Title', 'Frequency');
             freqLayout = uigridlayout(app.FreqTab, [2 2], ...
                 'RowHeight', {'1x', '1x'}, 'ColumnWidth', {'1x', '1x'});
@@ -141,14 +141,13 @@ classdef RobustCADApp < handle
             title(app.NyquistAxes, 'Nyquist'); grid(app.NyquistAxes, 'on');
             axis(app.NyquistAxes, 'equal');
 
-            % --- Performance Tab ---
             app.PerfTab = uitab(app.TabGroup, 'Title', 'Performance');
             perfLayout = uigridlayout(app.PerfTab, [1 1]);
             app.MetricsTable = uitable(perfLayout, ...
                 'ColumnName', {'Metric', 'Value'}, ...
                 'ColumnWidth', {150, 100}, 'RowName', {});
 
-            % --- Robustness Tab ---
+           
             app.RobustTab = uitab(app.TabGroup, 'Title', 'Robustness');
             robustLayout = uigridlayout(app.RobustTab, [2 2], ...
                 'RowHeight', {200, '1x'}, 'ColumnWidth', {'1x', '1x'});
@@ -167,7 +166,7 @@ classdef RobustCADApp < handle
             app.RobustTextArea = uitextarea(robustLayout, 'Editable', 'off');
         end
 
-        %% ================= INITIALIZATION =================
+        
         function startupFcn(app)
             s = tf('s');
 
@@ -282,7 +281,7 @@ classdef RobustCADApp < handle
             if val, str = 'Yes'; else, str = 'No'; end
         end
 
-        %% ================= CONTROLLER UI =================
+        
         function createControllerParamsUI(app)
             delete(app.ControllerParamsPanel.Children);
 
@@ -295,7 +294,7 @@ classdef RobustCADApp < handle
             names = fieldnames(params);
             n = length(names);
 
-            % container intern pentru scroll
+            
             inner = uipanel(app.ControllerParamsPanel);
             inner.Units = 'pixels';
             inner.Position = [0 0 260 max(300, n*50)];
@@ -341,7 +340,7 @@ classdef RobustCADApp < handle
             end
         end
 
-        %% ================= CALLBACKS =================
+      
         function controllerChanged(app)
             switch app.ControllerDropDown.Value
                 case 'None'
@@ -423,10 +422,10 @@ classdef RobustCADApp < handle
         end
 
         function onGainChanged(app)
-            % optional
+           
         end
 
-        %% ================= DRAG & DROP =================
+       
         function axesButtonDown(app, ~)
             cp = app.UIAxes.CurrentPoint;
             click = cp(1,1) + 1i*cp(1,2);
@@ -473,7 +472,7 @@ classdef RobustCADApp < handle
             alpha = bestAlpha;
         end
 
-        %% ================= ROBUSTNESS =================
+       
         function runRobustnessAnalysis(app)
             den_nom = cell2mat(app.Session.Plant.G_tf.Denominator);
             n = length(den_nom);
@@ -495,7 +494,7 @@ classdef RobustCADApp < handle
             end
         end
 
-        %% ================= EXPORT / SAVE / LOAD =================
+       
         function exportToSimulink(app)
             mdl = 'RobustCAD_Model';
             if bdIsLoaded(mdl), close_system(mdl,0); end
@@ -541,7 +540,7 @@ classdef RobustCADApp < handle
                 end
                 if isfield(ld.data, 'Controller')
                     app.Session.setController(ld.data.Controller);
-                    % actualizează dropdown-ul
+                  
                     if isa(ld.data.Controller, 'models.PIDController')
                         app.ControllerDropDown.Value = 'PID';
                     elseif isa(ld.data.Controller, 'models.LeadLagController')

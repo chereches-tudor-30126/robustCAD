@@ -2,7 +2,7 @@ classdef SessionManager < handle
     properties (SetObservable)
         Plant
         Controller
-        K           % Câștig curent
+        K           
     end
     properties (SetAccess = private)
         LoopGain
