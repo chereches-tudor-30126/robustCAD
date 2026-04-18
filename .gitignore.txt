@@ -1,0 +1,24 @@
+# MATLAB
+*.asv
+*.bak
+*.swp
+*.swo
+
+# Workspace 
+*.mat
+
+*.log
+diary.txt
+
+*.mex*
+*.dll
+*.so
+*.slxc
+
+slprj/
+codegentemp/
+*_ert_rtw/
+
+.matlab/
+metadata/
+resources/
